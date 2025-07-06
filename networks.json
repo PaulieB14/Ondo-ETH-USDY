@@ -1,0 +1,8 @@
+{
+  "mainnet": {
+    "USDY": {
+      "address": "0x96F6eF951840721AdBF46Ac996b59E0235CB985C",
+      "startBlock": 17672244
+    }
+  }
+}
