@@ -30,3 +30,56 @@ dataSources:
         - event: Upgraded(indexed address)
           handler: handleUpgraded
       file: ./src/usdy.ts
+  - kind: ethereum
+    name: USDYManager
+    network: mainnet
+    source:
+      address: "0x25A103A1D6AeC5967c1A4fe2039cdc514886b97e"
+      abi: USDYManager
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - MintRequested
+        - MintCompleted
+        - RedemptionRequested
+        - RedemptionCompleted
+      abis:
+        - name: USDYManager
+          file: ./abis/USDYManager.json
+      eventHandlers:
+        - event: MintRequested(indexed address,indexed bytes32,uint256,uint256,uint256)
+          handler: handleMintRequested
+        - event: MintCompleted(indexed address,indexed bytes32,uint256,uint256,uint256,uint256)
+          handler: handleMintCompleted
+        - event: RedemptionRequested(indexed address,indexed bytes32,uint256)
+          handler: handleRedemptionRequested
+        - event: RedemptionCompleted(indexed address,indexed bytes32,uint256,uint256,uint256)
+          handler: handleRedemptionCompleted
+      file: ./src/usdyManager.ts
+  - kind: ethereum
+    name: rUSDY
+    network: mainnet
+    source:
+      address: "0xaf37c1167910ebC994e266949387d2c7C326b879"
+      abi: rUSDY
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - AdminChanged
+        - BeaconUpgraded
+        - Upgraded
+      abis:
+        - name: rUSDY
+          file: ./abis/rUSDY.json
+      eventHandlers:
+        - event: AdminChanged(address,address)
+          handler: handleAdminChanged
+        - event: BeaconUpgraded(indexed address)
+          handler: handleBeaconUpgraded
+        - event: Upgraded(indexed address)
+          handler: handleUpgraded
+      file: ./src/rusdy.ts

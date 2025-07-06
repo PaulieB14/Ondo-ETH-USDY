@@ -22,3 +22,50 @@ type Upgraded @entity(immutable: true) {
   blockTimestamp: BigInt!
   transactionHash: Bytes!
 }
+
+type MintRequested @entity {
+  id: ID!
+  user: Bytes!
+  depositId: Bytes!
+  collateralAmountDeposited: BigInt!
+  depositAmountAfterFee: BigInt!
+  feeAmount: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type MintCompleted @entity {
+  id: ID!
+  user: Bytes!
+  depositId: Bytes!
+  rwaAmountOut: BigInt!
+  collateralAmountDeposited: BigInt!
+  price: BigInt!
+  priceId: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type RedemptionRequested @entity {
+  id: ID!
+  user: Bytes!
+  redemptionId: Bytes!
+  rwaAmountIn: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type RedemptionCompleted @entity {
+  id: ID!
+  user: Bytes!
+  redemptionId: Bytes!
+  rwaAmountRequested: BigInt!
+  collateralAmountReturned: BigInt!
+  price: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
