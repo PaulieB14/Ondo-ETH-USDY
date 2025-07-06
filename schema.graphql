@@ -1,31 +1,23 @@
-type AdminChanged @entity(immutable: true) {
-  id: Bytes!
-  previousAdmin: Bytes! # address
-  newAdmin: Bytes! # address
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
-}
-
-type BeaconUpgraded @entity(immutable: true) {
-  id: Bytes!
-  beacon: Bytes! # address
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
-}
-
-type Upgraded @entity(immutable: true) {
-  id: Bytes!
-  implementation: Bytes! # address
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
+type User @entity {
+  id: ID!
+  address: Bytes!
+  usdyBalance: BigInt!
+  rusdyBalance: BigInt!
+  rusdyShares: BigInt!
+  totalMinted: BigInt!
+  totalRedeemed: BigInt!
+  mintCount: BigInt!
+  redemptionCount: BigInt!
+  lastUpdated: BigInt!
+  subscriptions: [MintRequested!]! @derivedFrom(field: "user")
+  redemptions: [RedemptionRequested!]! @derivedFrom(field: "user")
+  transfers: [Transfer!]! @derivedFrom(field: "from")
+  transfersReceived: [Transfer!]! @derivedFrom(field: "to")
 }
 
 type MintRequested @entity {
   id: ID!
-  user: Bytes!
+  user: User!
   depositId: Bytes!
   collateralAmountDeposited: BigInt!
   depositAmountAfterFee: BigInt!
@@ -37,7 +29,7 @@ type MintRequested @entity {
 
 type MintCompleted @entity {
   id: ID!
-  user: Bytes!
+  user: User!
   depositId: Bytes!
   rwaAmountOut: BigInt!
   collateralAmountDeposited: BigInt!
@@ -50,7 +42,7 @@ type MintCompleted @entity {
 
 type RedemptionRequested @entity {
   id: ID!
-  user: Bytes!
+  user: User!
   redemptionId: Bytes!
   rwaAmountIn: BigInt!
   blockNumber: BigInt!
@@ -60,11 +52,121 @@ type RedemptionRequested @entity {
 
 type RedemptionCompleted @entity {
   id: ID!
-  user: Bytes!
+  user: User!
   redemptionId: Bytes!
   rwaAmountRequested: BigInt!
   collateralAmountReturned: BigInt!
   price: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type Transfer @entity {
+  id: ID!
+  from: User!
+  to: User!
+  amount: BigInt!
+  token: String! # "USDY" or "rUSDY"
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type PriceUpdate @entity {
+  id: ID!
+  price: BigInt!
+  timestamp: BigInt!
+  priceId: BigInt!
+  blockNumber: BigInt!
+  transactionHash: Bytes!
+}
+
+type DailyProtocolStats @entity {
+  id: ID! # timestamp / 86400
+  date: BigInt!
+  totalSupplyUSDY: BigInt!
+  totalSupplyRUSDY: BigInt!
+  totalMints: BigInt!
+  totalRedemptions: BigInt!
+  volumeUSD: BigInt!
+  averagePrice: BigInt!
+  uniqueUsers: BigInt!
+  newUsers: BigInt!
+}
+
+type ProtocolMetrics @entity {
+  id: ID! # "protocol"
+  totalSupplyUSDY: BigInt!
+  totalSupplyRUSDY: BigInt!
+  totalUsers: BigInt!
+  totalMints: BigInt!
+  totalRedemptions: BigInt!
+  totalVolumeUSD: BigInt!
+  currentPrice: BigInt!
+  lastUpdated: BigInt!
+}
+
+type SharesBurnt @entity {
+  id: ID!
+  user: User!
+  preRebaseTokenAmount: BigInt!
+  postRebaseTokenAmount: BigInt!
+  sharesAmount: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type TokensBurnt @entity {
+  id: ID!
+  user: User!
+  burnAmount: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type RangeSet @entity(immutable: true) {
+  id: ID!
+  index: BigInt!
+  start: BigInt!
+  end: BigInt!
+  dailyInterestRate: BigInt!
+  prevRangeClosePrice: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type RangeOverriden @entity(immutable: true) {
+  id: ID!
+  index: BigInt!
+  newStart: BigInt!
+  newEnd: BigInt!
+  newDailyInterestRate: BigInt!
+  newPrevRangeClosePrice: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type TransferShares @entity(immutable: true) {
+  id: ID!
+  from: Bytes!
+  to: Bytes!
+  sharesValue: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type Approval @entity(immutable: true) {
+  id: ID!
+  owner: Bytes!
+  spender: Bytes!
+  value: BigInt!
+  token: String!
   blockNumber: BigInt!
   blockTimestamp: BigInt!
   transactionHash: Bytes!

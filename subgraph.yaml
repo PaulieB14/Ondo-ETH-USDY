@@ -16,19 +16,19 @@ dataSources:
       apiVersion: 0.0.7
       language: wasm/assemblyscript
       entities:
-        - AdminChanged
-        - BeaconUpgraded
-        - Upgraded
+        - User
+        - Transfer
+        - Approval
+        - ProtocolMetrics
+        - DailyProtocolStats
       abis:
         - name: USDY
           file: ./abis/USDY.json
       eventHandlers:
-        - event: AdminChanged(address,address)
-          handler: handleAdminChanged
-        - event: BeaconUpgraded(indexed address)
-          handler: handleBeaconUpgraded
-        - event: Upgraded(indexed address)
-          handler: handleUpgraded
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleUSDYTransfer
+        - event: Approval(indexed address,indexed address,uint256)
+          handler: handleUSDYApproval
       file: ./src/usdy.ts
   - kind: ethereum
     name: USDYManager
@@ -41,10 +41,13 @@ dataSources:
       apiVersion: 0.0.7
       language: wasm/assemblyscript
       entities:
+        - User
         - MintRequested
         - MintCompleted
         - RedemptionRequested
         - RedemptionCompleted
+        - ProtocolMetrics
+        - DailyProtocolStats
       abis:
         - name: USDYManager
           file: ./abis/USDYManager.json
@@ -69,17 +72,45 @@ dataSources:
       apiVersion: 0.0.7
       language: wasm/assemblyscript
       entities:
-        - AdminChanged
-        - BeaconUpgraded
-        - Upgraded
+        - User
+        - Transfer
+        - Approval
+        - TransferShares
+        - SharesBurnt
+        - TokensBurnt
       abis:
         - name: rUSDY
           file: ./abis/rUSDY.json
       eventHandlers:
-        - event: AdminChanged(address,address)
-          handler: handleAdminChanged
-        - event: BeaconUpgraded(indexed address)
-          handler: handleBeaconUpgraded
-        - event: Upgraded(indexed address)
-          handler: handleUpgraded
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleRUSDYTransfer
+        - event: TransferShares(indexed address,indexed address,uint256)
+          handler: handleTransferShares
+        - event: Approval(indexed address,indexed address,uint256)
+          handler: handleRUSDYApproval
       file: ./src/rusdy.ts
+  - kind: ethereum
+    name: RedemptionPriceOracle
+    network: mainnet
+    source:
+      address: "0xA0219AA5B31e65Bc920B5b6DFb8EdF0988121De0"
+      abi: Oracle
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - RangeSet
+        - RangeOverriden
+        - PriceUpdate
+        - ProtocolMetrics
+        - DailyProtocolStats
+      abis:
+        - name: Oracle
+          file: ./abis/Oracle.json
+      eventHandlers:
+        - event: RangeSet(indexed uint256,uint256,uint256,uint256,uint256)
+          handler: handleRangeSet
+        - event: RangeOverriden(indexed uint256,uint256,uint256,uint256,uint256)
+          handler: handleRangeOverriden
+      file: ./src/oracle.ts
