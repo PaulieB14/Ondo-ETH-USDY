@@ -13,14 +13,6 @@ Ondo US Dollar Yield (USDY) is a tokenized note secured by short-term US Treasur
 - **Multi-Chain**: Deployed on Ethereum, Arbitrum, Stellar, and more
 - **Regulated**: SEC-compliant structure with bankruptcy-remote protection
 
-## 📊 Real-Time Dashboard
-
-### Live Metrics (Powered by Real Data)
-- **Current Price**: $1.0908 (Live USDY price with yield appreciation)
-- **Total Volume**: $614M+ in protocol volume
-- **Total Users**: 841 non-US investors onboarded
-- **Total Mints**: 221 completed mint transactions
-- **Transfer Delay**: 40-50 days after minting
 
 ### Dashboard Features
 - **Interactive Price Charts**: Treasury yield accumulation over time
@@ -158,35 +150,6 @@ erDiagram
 }
 ```
 
-## 🚀 Getting Started
-
-### For Dashboard Development
-```bash
-# Clone the repository
-git clone https://github.com/PaulieB14/Ondo-ETH-USDY.git
-cd Ondo-ETH-USDY
-
-# Install dependencies
-npm install
-
-# Start development server
-npm start
-```
-
-### For Subgraph Development
-```bash
-# Install Graph CLI
-npm install -g @graphprotocol/graph-cli
-
-# Generate types
-graph codegen
-
-# Build subgraph
-graph build
-
-# Deploy to The Graph Network
-graph deploy --product hosted-service your-github-username/ondo-usdy
-```
 
 ## 🎯 Use Cases
 
@@ -207,10 +170,6 @@ This platform enables building:
 - 🏦 **Treasury-backed** asset reserves
 - 📋 **KYC/KYB verification** required
 
-### Regulatory Structure
-- **Bankruptcy-Remote**: Ondo USDY LLC structured for investor protection
-- **Verification Agent**: Ankura Trust Company oversight
-- **SEC Compliance**: Designed for non-US investor regulations
 
 ## 📄 Documentation
 
